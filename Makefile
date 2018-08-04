@@ -1,8 +1,8 @@
 # Docker organization to pull the images from
-ORG = thewtex
+ORG = punzo
 
 # Name of image
-IMAGE = opengl
+IMAGE = slicerastro-opengl
 
 # Docker TAG
 TAG = debian

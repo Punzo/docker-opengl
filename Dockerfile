@@ -1,30 +1,80 @@
-FROM dockcross/base:latest
-MAINTAINER Matt McCormick <matt.mccormick@kitware.com>
+FROM ubuntu:18.04
 
-ENV DEFAULT_DOCKCROSS_IMAGE thewtex/opengl
+ENV DEFAULT_DOCKCROSS_IMAGE SlicerAstro/opengl \
+    LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-  git \
-  libgl1-mesa-dri \
-  menu \
-  net-tools \
-  openbox \
-  python-pip \
-  sudo \
-  supervisor \
-  tint2 \
-  x11-xserver-utils \
-  x11vnc \
-  xinit \
-  xserver-xorg-video-dummy \
-  xserver-xorg-input-void \
-  websockify && \
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN \
+  apt-get update && \
+  \
+  (LANG=C LANGUAGE=C LC_ALL=C apt-get install -y locales) && \
+  locale-gen ${LANG%.*} ${LANG} && \
+  \
+  apt-get -y upgrade && \
+  apt-get update && \
+  apt-get install -y \
+    build-essential \
+    curl \
+    gosu \
+    openssh-client \
+    unzip \
+    gettext \
+    libssl-dev \
+    libcurl4-gnutls-dev \
+    libexpat1-dev \
+    zlib1g-dev \
+    git \
+    libgl1-mesa-dri \
+    menu \
+    net-tools \
+    openbox \
+    python-pip \
+    sudo \
+    supervisor \
+    tint2 \
+    x11-xserver-utils \
+    x11vnc \
+    xinit \
+    xserver-xorg-video-dummy \
+    xserver-xorg-input-void \
+    websockify \
+    wget \
+    libnss3 \
+    libpulse-mainloop-glib0 \
+    libasound2 \
+    gcc \
+    git-core \
+    git-svn \
+    g++ \
+    libfontconfig-dev \
+    libglu1-mesa-dev \
+    libgl1-mesa-dev \
+    libosmesa6-dev \
+    libncurses5-dev\
+    libxrender-dev \
+    make \
+    subversion \
+    nano \
+  && \
+  #
+  # cleanup
+  #
+  rm -rf /var/lib/apt/lists/* && \
   rm -f /usr/share/applications/x11vnc.desktop && \
   apt-get remove -y python-pip && \
   wget https://bootstrap.pypa.io/get-pip.py && \
   python get-pip.py && \
   pip install supervisor-stdout && \
   apt-get -y clean
+
+ENV AR=/usr/bin/ar \
+    AS=/usr/bin/as \
+    CC=/usr/bin/gcc \
+    CPP=/usr/bin/cpp \
+    CXX=/usr/bin/g++
 
 COPY etc/skel/.xinitrc /etc/skel/.xinitrc
 
