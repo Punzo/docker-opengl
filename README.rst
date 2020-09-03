@@ -23,7 +23,7 @@ Quick-start
 
 1) install docker (https://docs.docker.com/install/overview/)
 2) run make
-3) extract in the project the SlicerAstro custom binaries (https://github.com/Punzo/SlicerAstro/releases/tag/v1.0.0)
+3) extract in the project the SlicerAstro custom binaries (https://github.com/Punzo/SlicerAstroApp/releases/tag/1.1.2)
 4) Execute the `run.sh -i punzo/slicerastro-opengl:debian` script.
 
 Details
